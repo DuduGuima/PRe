@@ -22,7 +22,7 @@ function Arnold(A,n,b=A[:,1])
     return Q,H
 end
 
-function MyGMRES(A,b,maxiter=size(A,2),restart = length(b))
+function MyGMRES(A,b,maxiter=size(A,2),restart = length(b),see_r = false)
     it=0
     bheta = norm(b)
     m=restart
@@ -38,7 +38,9 @@ function MyGMRES(A,b,maxiter=size(A,2),restart = length(b))
         Q[:,1] = v
         for k=1:m
             it+=1
-            println("Iteration: ",it," Current residual: ",res)
+            if see_r
+                println("Iteration: ",it," Current residual: ",res)
+            end
             ###Arnold's iteration inside GMRES to use Q,H from past iterations
             #----------------------------------------------
             v = A*Q[:,k]
